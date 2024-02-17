@@ -1,32 +1,25 @@
 import { useState } from 'react';
 import InputText from '../components/InputText';
-import BlackAndWhiteLayout from '../layouts/BlackAndWhiteLayout';
-import { Link, useNavigate } from 'react-router-dom';
+import BlackAndWhiteLayout, { Black, White } from '../layouts/BlackAndWhiteLayout';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 
 export default function SignUp() {
-  const navigate = useNavigate()
   const { signIn } = useAuth()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("password")
 
   const handleSubmit = () => {
-    try {
-      signIn(email, password)
-      navigate('/')
-    } catch (error) {
-      console.log(error)
-    }
+    signIn(email, password)
   }
 
   return (
-    <BlackAndWhiteLayout title="Sign In">
-      <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100%'
-      }}>
+    <BlackAndWhiteLayout>
+      <White>
+        <h1>Hi!</h1>
+      </White>
+      <Black>
         <div className='list' style={{
           gap: '20px',
           justifyContent: 'center',
@@ -34,7 +27,7 @@ export default function SignUp() {
           height: '100%',
         }}>
           <InputText onChange={setEmail} placeholder='email' />
-          <InputText onChange={setPassword} placeholder='password' />
+          <InputText onChange={setPassword} placeholder='password' type='password' />
         </div>
         <div style={{
           display: 'flex',
@@ -56,7 +49,7 @@ export default function SignUp() {
             border: 'none',
           }} onClick={handleSubmit}>Sign In</button>
         </div>
-      </div>
-    </BlackAndWhiteLayout>
+      </Black>
+    </BlackAndWhiteLayout >
   )
 }

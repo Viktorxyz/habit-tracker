@@ -4,6 +4,7 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut as signOutUser,
+  updateProfile
 } from 'firebase/auth'
 
 import {
@@ -12,7 +13,7 @@ import {
   useEffect,
   useState
 } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Navigate, Outlet } from 'react-router-dom'
 import Loading from '../components/Loading'
 
 const AuthContext = createContext(null)
@@ -29,8 +30,11 @@ export function AuthProvider() {
     await signInWithEmailAndPassword(auth, email, password)
   }
 
-  const signUp = async (email: string, password: string) => {
+  const signUp = async (username: string, email: string, password: string) => {
     await createUserWithEmailAndPassword(auth, email, password)
+    await updateProfile(auth.currentUser, {
+      displayName: username
+    })
   }
 
   const signOut = async () => {
@@ -45,14 +49,14 @@ export function AuthProvider() {
     return unsubscribe
   }, [])
 
-  if (loading) return <Loading />
-
   const value = {
     currentUser,
     signIn,
     signUp,
     signOut
   }
+
+  if (loading) return <Loading />
 
   return (
     <AuthContext.Provider value={value}>

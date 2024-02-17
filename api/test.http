@@ -1,0 +1,58 @@
+@hostname = localhost
+@port = 3000
+@host = {{hostname}}:{{port}}
+GET http://{{host}}/habit
+
+###
+
+GET http://{{host}}/habit/10 HTTP/1.1
+
+###
+
+POST http://{{host}}/habit
+Content-Type: application/json
+
+{
+  "habit_title": "Codeing",
+  "user_id": "LA2P9U30HtaH7j3UX1wXwR4wMuA2",
+  "habit_description": "React Habit Tracker Project",
+  "habit_streak_goal": "Daily",
+  "habit_completions_per_day": 5,
+  "habit_color": "#ff00ff",
+  "habit_icon": "FiCode"
+}
+
+###
+
+PUT http://{{host}}/habit/1
+Content-Type: application/json
+
+{
+  "habit_title": "Test title",
+  "habit_description": "test"
+}
+
+###
+
+DELETE http://{{host}}/habit/1
+
+###
+
+GET http://{{host}}/habit/10/check-in
+Authorization: Bearer LA2P9U30HtaH7j3UX1wXwR4wMuA2
+
+###
+
+POST http://{{host}}/habit/9/check-in
+Content-Type: application/json
+Authorization: Bearer LA2P9U30HtaH7j3UX1wXwR4wMuA2
+
+{
+  "datetime": "2024-08-02 10:55:02"
+}
+
+###
+
+DELETE http://{{host}}/habit/9/check-in
+
+###
