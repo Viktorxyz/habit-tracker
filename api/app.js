@@ -1,7 +1,9 @@
 import express from 'express'
 import cors from 'cors'
+import './firebase.js'
 
 import habit from './routes/habit.js'
+import user from './routes/user.js'
 
 const port = 3000
 
@@ -14,6 +16,8 @@ app.use(cors({
 
 // routes
 app.use('/habit', habit)
+
+app.use('/user', user)
 
 app.listen(port, () => {
   console.log(`listening to port ${port}`);

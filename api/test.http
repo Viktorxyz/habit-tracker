@@ -56,3 +56,7 @@ Authorization: Bearer LA2P9U30HtaH7j3UX1wXwR4wMuA2
 DELETE http://{{host}}/habit/9/check-in
 
 ###
+
+GET http://{{host}}/user/?displayName=test
+Content-Type: application/json
+Authorization: Bearer LA2P9U30HtaH7j3UX1wXwR4wMuA2

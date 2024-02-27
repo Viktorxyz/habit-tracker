@@ -3,14 +3,15 @@ import InputText from './InputText'
 import { useEffect, useMemo, useState } from 'react'
 import BlackAndWhiteLayout, { Black, White } from '../layouts/BlackAndWhiteLayout'
 import { Link, useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion'
 
 function Icon({ Icon, selected }) {
   return (
-    <div style={{
+    <motion.div style={{
       minWidth: '32px',
       minHeight: '32px',
       borderRadius: '8px',
-      backgroundColor: selected ? '#FFFFFF' : '',
+      backgroundColor: selected ? '#FFFFFF' : 'transparent',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center'
@@ -20,7 +21,7 @@ function Icon({ Icon, selected }) {
         minHeight: '24px',
         color: selected ? 'black' : ''
       }} />
-    </div>
+    </motion.div>
   )
 }
 
@@ -69,14 +70,18 @@ export default function HabitForm({ habit, setHabit, onSave }) {
   return (
     <BlackAndWhiteLayout>
       <White>
-        <h1>
+        <h1 style={{
+          paddingInline: '20px',
+          margin: '0',
+          textDecoration: 'underline'
+        }}>
           <input type="text" defaultValue={title} style={{
             display: 'flex',
             width: '100%',
             border: 'none',
             outline: 'none',
             backgroundColor: 'transparent'
-          }} onChange={(e) => { setTitle(e.target.value) }} />
+          }} onChange={(e) => { setTitle(e.target.value) }} autoFocus />
         </h1>
       </White>
       <Black>

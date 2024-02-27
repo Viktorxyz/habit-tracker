@@ -1,10 +1,15 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { IconType } from 'react-icons'
 import * as icons from 'react-icons/fi'
 import { addDays, addMonths, format, formatISO, isSameMonth, isToday, startOfMonth, subMonths } from 'date-fns'
 import Color from 'color'
 import { useNavigate } from 'react-router-dom'
 import useCheckIns from '../hooks/useCheckIns'
+import { motion } from 'framer-motion'
+
+const weekDayStyle = {
+  maxHeight: '12px'
+}
 
 function Circle({ checkedColor, highlight = false, checked = false, today = false }) {
   const borderWidth = (() => {
@@ -24,7 +29,7 @@ function Circle({ checkedColor, highlight = false, checked = false, today = fals
     return 'transparent'
   })()
   return (
-    <div style={{
+    <motion.div style={{
       width: '12px',
       height: '12px',
       borderRadius: '100vw',
@@ -32,7 +37,7 @@ function Circle({ checkedColor, highlight = false, checked = false, today = fals
       borderWidth,
       borderColor,
       backgroundColor
-    }}></div>
+    }}></motion.div>
   )
 }
 
@@ -94,36 +99,60 @@ export default function HabitCard({ habit }) {
   }
 
   return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      color: 'white',
-      width: 'min-content',
-      gap: '4px'
-    }}>
+    <motion.div
+      initial={{
+        filter: "blur(4px)",
+      }}
+      animate={{
+        filter: "blur(0px)",
+      }}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        color: 'white',
+        width: '100%',
+        gap: '4px'
+      }}
+    >
       <header style={{
         display: 'flex',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        alignItems: 'center'
       }}>
-        {/* Icon + Title container */}
         <div style={{
           display: 'flex',
-          alignItems: 'center',
-          gap: '10px',
-          width: '100%'
-        }} onClick={edit}>
-          <Icon style={{
-            minWidth: '24px',
-            minHeight: '24px'
-          }} />
-          <h2>
-            {habit.title}
-          </h2>
+          flexDirection: 'column'
+        }}>
+          {/* Icon + Title container */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            width: '100%'
+          }} onClick={edit}>
+            <Icon style={{
+              minWidth: '24px',
+              minHeight: '24px'
+            }} />
+            <h2>
+              {habit.title}
+            </h2>
+          </div>
+          {/* Description */}
+          <p style={{
+            color: '#7e7e7e',
+            fontSize: '.75rem',
+            lineHeight: '1rem',
+            textOverflow: 'ellipsis',
+            overflow: 'hidden',
+            whiteSpace: 'nowrap'
+          }}>{habit.description}</p>
         </div>
         <span style={{
           height: '100%',
+          minHeight: '52px',
           aspectRatio: '1 / 1',
-          borderRadius: '8px',
+          borderRadius: '16px',
           border: '2px solid white',
           display: 'flex',
           alignItems: 'center',
@@ -131,14 +160,14 @@ export default function HabitCard({ habit }) {
           backgroundColor: checkIns.has(new Date()) && Color(habit.color).alpha(checkIns?.state[formatISO(today, { representation: 'date' })]?.length / habit.completionsPerDay)
         }} onClick={() => { checkIns.add(new Date()) }}>
           <icons.FiCheck style={{
-            width: '24px',
-            height: '24px'
+            width: '32px',
+            height: '32px'
           }} />
         </span>
       </header>
       <main style={{
         display: 'flex',
-        maxHeight: '96px',
+        justifyContent: 'center',
         gap: '2px',
       }} onClick={calendar}>
         <div className='list' style={{
@@ -146,27 +175,13 @@ export default function HabitCard({ habit }) {
           justifyContent: 'space-between',
           textAlign: 'center'
         }}>
-          <div style={{
-            maxHeight: '12px'
-          }}>M</div>
-          <div style={{
-            maxHeight: '12px'
-          }}>T</div>
-          <div style={{
-            maxHeight: '12px'
-          }}>W</div>
-          <div style={{
-            maxHeight: '12px'
-          }}>T</div>
-          <div style={{
-            maxHeight: '12px'
-          }}>F</div>
-          <div style={{
-            maxHeight: '12px'
-          }}>S</div>
-          <div style={{
-            maxHeight: '12px'
-          }}>S</div>
+          <div style={weekDayStyle}>M</div>
+          <div style={weekDayStyle}>T</div>
+          <div style={weekDayStyle}>W</div>
+          <div style={weekDayStyle}>T</div>
+          <div style={weekDayStyle}>F</div>
+          <div style={weekDayStyle}>S</div>
+          <div style={weekDayStyle}>S</div>
         </div>
         {renderWeeks()}
       </main>
@@ -175,6 +190,6 @@ export default function HabitCard({ habit }) {
       }} onClick={nextMonth}>
         {format(currentMonth, "MMMM")}
       </footer>
-    </div >
+    </motion.div >
   )
 }

@@ -1,6 +1,7 @@
 import HabitForm from '../components/HabitForm'
 import { useHabit } from '../contexts/HabitProvider'
 import { useParams } from 'react-router-dom'
+import Transition from '../layouts/Transition'
 
 export default function HabitRoute() {
   const { id } = useParams()
@@ -12,6 +13,8 @@ export default function HabitRoute() {
   }
 
   return (
-    <HabitForm habit={habit} setHabit={setHabit} onSave={onSave} />
+    <Transition enter='right' exit='right'>
+      <HabitForm habit={habit} setHabit={setHabit} onSave={onSave} />
+    </Transition>
   )
 }

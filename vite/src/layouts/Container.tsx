@@ -4,8 +4,9 @@ export default function Container() {
   return (
     <div style={{
       position: 'relative',
-      backgroundColor: 'black',
+      width: '100%',
       height: '100%',
+      backgroundColor: 'black',
       overflow: 'hidden'
     }}>
       <Outlet />

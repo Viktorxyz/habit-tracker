@@ -10,7 +10,7 @@ export const useHabit = () => {
 }
 
 const defaultHabit = {
-  title: 'New Habit',
+  title: 'Habit Title',
   description: '',
   streakGoal: 'Daily',
   completionsPerDay: 1,
@@ -55,7 +55,7 @@ export function HabitProvider() {
       data: formatHabit
     })
     navigate('..')
-  }, [formatHabit, id, navigate, request])
+  }, [formatHabit])
 
   const createHabit = useCallback(async () => {
     await request({
@@ -64,18 +64,18 @@ export function HabitProvider() {
       data: formatHabit
     })
     navigate('..')
-  }, [formatHabit, navigate, request])
+  }, [formatHabit])
 
   useEffect(() => {
     if (id !== 'new') fetchHabit()
   }, [])
 
-  const value = useMemo(() => ({
+  const value = {
     habit,
     setHabit,
     createHabit,
     updateHabit
-  }), [habit, setHabit, createHabit, updateHabit])
+  }
 
   if (id !== 'new' && loading) return <Loading />
 

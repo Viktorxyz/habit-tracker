@@ -1,10 +1,11 @@
 import myqsl from 'mysql2/promise'
 
 const pool = myqsl.createPool({
-  host: 'sql11.freemysqlhosting.net',
-  user: 'sql11683319',
-  password: 'krWgQ4Fa5h',
-  database: 'sql11683319',
+  host: process.env.HOST,
+  user: process.env.USER,
+  password: process.env.PASSWORD,
+  database: process.env.DATABASE,
+  port: 3306,
   connectionLimit: 10
 })
 

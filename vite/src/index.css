@@ -56,8 +56,8 @@ select {
 }
 
 body {
-  /* background-color: #1D1D1D; */
-  background-color: black;
+  background-color: #1D1D1D;
+  /* background-color: black; */
 }
 
 .flex {
@@ -90,6 +90,9 @@ input[type=number] {
 }
 
 #root {
+  /* display: flex; */
+  /* flex-direction: row; */
   height: 100vh;
   width: 100vw;
+  overflow: hidden;
 }

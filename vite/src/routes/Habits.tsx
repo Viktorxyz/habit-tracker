@@ -1,91 +1,12 @@
-import { Link, useNavigate } from 'react-router-dom'
-import useAxios from '../hooks/useAxios'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import Loading from '../components/Loading'
-import HabitCard from '../components/HabitCard'
+import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 
-function Guesture({ children, defaultActive = false }) {
-  const [active, setActive] = useState(false)
-
-  const ref = useRef()
-
-  const height = useMemo(() => ref?.current?.clientHeight || 0, [active])
-
-  const toggleActive = useCallback(() => {
-    setActive(!active)
-  }, [active])
-
-  const onDragEnd = useCallback((event, info) => {
-    if (Math.abs(info.offset.y) > height / 2) {
-      if (info.offset.y > 0) setActive(false)
-      else setActive(true)
-    } else {
-
-    }
-  }, [height])
-
-  const variants = useMemo(() => ({
-    inactive: { top: "-32px", backgroundColor: "#000000" },
-    active: { top: `-${height}px`, backgroundColor: "#ffffff" }
-  }), [height])
-
-  const barVariants = useMemo(() => ({
-    inactive: { backgroundColor: "#ffffff" },
-    active: { backgroundColor: "#000000" }
-  }), [])
-
-  useEffect(() => {
-    console.log(active, height);
-    if (defaultActive) setActive(defaultActive)
-  }, [])
-
-  return (
-    // container
-    <motion.div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      position: 'relative',
-      width: '100%',
-      borderTopLeftRadius: '32px',
-      borderTopRightRadius: '32px'
-    }}
-      ref={ref}
-      drag="y"
-      dragConstraints={{ bottom: active ? height - 32 : 0, top: active ? 0 : height - 32 }}
-      dragElastic={0}
-      onDragEnd={onDragEnd}
-      animate={active ? 'active' : 'inactive'}
-      variants={variants}
-      transition={{ ease: 'easeOut', duration: .2 }}
-      onClick={toggleActive}
-    >
-      {/* bar container */}
-      <div style={{
-        display: 'flex',
-        position: 'relative',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '100%',
-        height: '32px'
-      }}>
-        {/* bar */}
-        <motion.div style={{
-          display: 'block',
-          width: '55%',
-          height: '8px',
-          borderRadius: '100vw',
-          transitionProperty: 'background-color',
-          transitionDuration: '.2',
-          transitionTimingFunction: 'ease-in-out',
-        }}
-          variants={barVariants}
-        ></motion.div>
-      </div>
-      {children}
-    </motion.div>
-  )
-}
+import useAxios from '../hooks/useAxios'
+import Loading from '../components/Loading'
+import HabitCard from '../components/HabitCard'
+import Transition from '../layouts/Transition'
+import Guesture from '../components/Guesture'
 
 const listItemStyle = {
   backgroundColor: 'transparent',
@@ -124,12 +45,12 @@ export default function Habits() {
   if (habitsAxios.loading) return <Loading />
 
   return (
-    <>
+    <Transition enter='left' exit='left'>
       {habits.length > 0
         &&
         <div className='list' style={{
           paddingInline: '20px',
-          paddingTop: '40px',
+          paddingBlock: '40px',
           height: '100%',
           overflowY: 'auto'
         }}>
@@ -162,6 +83,9 @@ export default function Habits() {
           <Link to='/habit/new' style={listItemStyle}>
             Create New Habit
           </Link>
+          <Link to='/users' style={listItemStyle}>
+            Users
+          </Link>
           <Link to='/profile' style={listItemStyle}>
             Profile
           </Link>
@@ -170,6 +94,6 @@ export default function Habits() {
           </Link>
         </div>
       </Guesture>
-    </>
+    </Transition>
   )
 }
