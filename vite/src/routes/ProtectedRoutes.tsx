@@ -6,6 +6,5 @@ export default function ProtectedRoutes() {
   const { currentUser } = useAuth()
 
   if (currentUser) return <Outlet />
-  else return <Navigate to='sign-up' />
-
+  return <Navigate to='sign-up' />
 }
